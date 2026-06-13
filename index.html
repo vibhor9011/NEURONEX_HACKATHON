@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neuro-Nex SANI: Professional Clinical Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta name="description" content="A professional real-time neuromorphic motor intent detection dashboard for stroke rehabilitation, using delta modulation and spiking neural networks (SNN).">
+</head>
+<body>
+  <div class="glass-bg-glow"></div>
+  <div class="glass-bg-glow glow-secondary"></div>
+
+  <div class="dashboard-wrapper">
+    <!-- LEFT SIDEBAR: Branding and Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 19H11V15H13V19ZM13 13H11V5H13V13Z" fill="currentColor"/>
+            <path d="M9 8.5C9 9.33 8.33 10 7.5 10C6.67 10 6 9.33 6 8.5C6 7.67 6.67 7 7.5 7C8.33 7 9 7.67 9 8.5Z" fill="currentColor"/>
+            <path d="M18 8.5C18 9.33 17.33 10 16.5 10C15.67 10 15 9.33 15 8.5C15 7.67 15.67 7 16.5 7C17.33 7 18 7.67 18 8.5Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <h2>NEURO-NEX</h2>
+          <span class="brand-sub">Neuromorphic SANI v2.4</span>
+        </div>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li>
+            <a href="#" class="nav-item active" data-tab="monitor">
+              <span class="nav-icon">🩺</span>
+              <span>Live Monitor</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-tab="actuator">
+              <span class="nav-icon">🦾</span>
+              <span>Exoskeleton Actuator</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-tab="analytics">
+              <span class="nav-icon">📊</span>
+              <span>Diagnostics & Analytics</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-tab="settings">
+              <span class="nav-icon">⚙️</span>
+              <span>System Calibration</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-tab="guide">
+              <span class="nav-icon">📖</span>
+              <span>User Guide</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Sidebar Patient Context Card -->
+      <div class="sidebar-patient-card">
+        <div class="patient-card-header">
+          <span class="online-indicator"></span>
+          <h4>ACTIVE PATIENT</h4>
+        </div>
+        <div class="patient-card-details">
+          <div class="detail-row">
+            <span class="detail-label">ID:</span>
+            <span class="detail-value">NX-942</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Condition:</span>
+            <span class="detail-value">Subacute Hemiparesis</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Battery Level:</span>
+            <span class="detail-value">88%</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="app-main">
+      <!-- TOP BAR -->
+      <header class="app-top-bar">
+        <div class="top-bar-title-group">
+          <h2 id="currentTabTitle">Live Monitor</h2>
+          <p id="currentTabSubtitle">Continuous real-time biological wave plotting and SNN spike integrations</p>
+        </div>
+        <div class="top-bar-status">
+          <div class="status-badge status-online">
+            <span class="status-dot animate-pulse"></span>
+            <span>SNN Core Active</span>
+          </div>
+          <div class="status-badge status-device">
+            <span class="status-dot"></span>
+            <span>Exoskeleton Online</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- VIEWPORTS (TAB CONTAINER) -->
+      <div class="workspace-content">
+        
+        <!-- TAB 1: LIVE MONITOR (DEFAULT) -->
+        <div id="tab-monitor" class="tab-viewport">
+          <div class="monitor-grid">
+            <!-- Signal Oscilloscope -->
+            <div class="dashboard-card signal-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Real-Time Biological Signals</h3>
+                  <p class="card-desc">Simulated continuous EEG (C3 motor cortex) & forearm EMG</p>
+                </div>
+                <div class="badge-group">
+                  <span class="sensor-badge badge-eeg">EEG (Mu/Beta)</span>
+                  <span class="sensor-badge badge-emg">EMG (Forearm)</span>
+                </div>
+              </div>
+              <div class="canvas-container">
+                <canvas id="signalCanvas"></canvas>
+              </div>
+            </div>
+
+            <!-- Delta Modulation / Spike Stream -->
+            <div class="dashboard-card spike-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Neuromorphic Spike Encoding</h3>
+                  <p class="card-desc">Asynchronous Delta Modulators converting analog voltages to event trains (UP/DOWN spikes)</p>
+                </div>
+              </div>
+              <div class="canvas-container">
+                <canvas id="spikeCanvas"></canvas>
+              </div>
+            </div>
+
+            <!-- Spiking Neural Network Architecture & Potential Graph -->
+            <div class="dashboard-card snn-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">SNN Architecture & Membrane Potentials</h3>
+                  <p class="card-desc">LIF Neurons integration, synaptic propagation, and threshold firing</p>
+                </div>
+              </div>
+              <div class="snn-visualization-container">
+                <div class="snn-graph-area">
+                  <canvas id="snnCanvas"></canvas>
+                </div>
+                <div class="snn-potentials-area">
+                  <canvas id="potentialsCanvas"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Telemetry Interpreter -->
+            <div class="dashboard-card interpreter-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Live Telemetry Interpreter</h3>
+                  <p class="card-desc">Continuous clinical translation of cortical and muscle neural signals</p>
+                </div>
+                <div class="badge-group">
+                  <span class="sensor-badge badge-eeg">Real-Time Translation</span>
+                </div>
+              </div>
+              
+              <div class="interpreter-metrics-grid">
+                <div class="interpreter-metric-box">
+                  <div class="metric-label">EEG Cortical Mode</div>
+                  <div class="metric-value-wrapper">
+                    <span id="telemetry-eeg-mode" class="metric-value-text">Resting (Mu Active)</span>
+                  </div>
+                  <div class="metric-sub-desc">Mu rhythm suppression desynchronizes during active planning.</div>
+                </div>
+
+                <div class="interpreter-metric-box">
+                  <div class="metric-label">EMG Muscle Tone</div>
+                  <div class="metric-value-wrapper">
+                    <span id="telemetry-emg-tone" class="metric-value-text">Relaxed (Idle)</span>
+                  </div>
+                  <div class="metric-sub-desc">Integrated electromyographical fiber activation levels.</div>
+                </div>
+
+                <div class="interpreter-metric-box">
+                  <div class="metric-label">SNN Synaptic Current</div>
+                  <div class="metric-value-wrapper">
+                    <span id="telemetry-snn-current" class="metric-mono-val">0.00 mA</span>
+                  </div>
+                  <div class="metric-sub-desc">Total integrated postsynaptic current flowing through synapses.</div>
+                </div>
+
+                <div class="interpreter-metric-box">
+                  <div class="metric-label">Signal Quality (SNR)</div>
+                  <div class="metric-value-wrapper">
+                    <span id="telemetry-snr-value" class="metric-mono-val">82% - Good</span>
+                  </div>
+                  <div class="metric-sub-desc">Relative amplitude ratio of neuromorphic signals vs noise.</div>
+                </div>
+              </div>
+
+              <div class="interpreter-diagnostic-output">
+                <div class="diagnostic-header">
+                  <span class="status-pulse-dot"></span>
+                  <span class="diagnostic-title">Instant Diagnostic Assessment</span>
+                </div>
+                <p id="telemetry-diagnostic-sentence" class="diagnostic-sentence">
+                  System is online and standing by. Awaiting voluntary intent triggers...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: EXOSKELETON ACTUATOR -->
+        <div id="tab-actuator" class="tab-viewport hidden">
+          <div class="actuator-layout-grid">
+            <!-- Robotic Exoskeleton Render -->
+            <div class="dashboard-card exoskeleton-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Assistive Exoskeleton (Hand)</h3>
+                  <p class="card-desc">Actuator position triggered by detected motor intent</p>
+                </div>
+                <div id="intentBadge" class="intent-badge idle">Idle</div>
+              </div>
+              <div class="canvas-container hand-canvas-container">
+                <canvas id="handCanvas"></canvas>
+              </div>
+            </div>
+
+            <!-- Actuator Stats & Calibration -->
+            <div class="dashboard-card actuator-details-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Actuator Calibration & Status</h3>
+                  <p class="card-desc">Mechanical metrics and voluntary manual triggers</p>
+                </div>
+              </div>
+              
+              <div class="actuator-metrics-group">
+                <div class="actuator-metric-row">
+                  <span>Flexion Closing Ratio:</span>
+                  <span class="metric-mono-val" id="valHandClosure">25%</span>
+                </div>
+                <div class="flexion-progress-bar">
+                  <div class="flexion-fill" id="fillHandClosure" style="width: 25%;"></div>
+                </div>
+
+                <div class="actuator-metric-row">
+                  <span>Motor Voltage:</span>
+                  <span class="metric-mono-val">5.0 V (LDO Regulated)</span>
+                </div>
+                <div class="actuator-metric-row">
+                  <span>Actuator State:</span>
+                  <span class="metric-mono-val" id="valActuatorState" style="color: var(--text-secondary);">IDLE</span>
+                </div>
+              </div>
+
+              <!-- Manual Trigger Overrides -->
+              <div class="control-section">
+                <h4 class="section-title">Manual Actuator Trigger Overrides</h4>
+                <div class="trigger-buttons-group">
+                  <button id="btnIdle" class="btn btn-secondary active">Rest (Idle)</button>
+                  <button id="btnGrasp" class="btn btn-primary">Attempt Grasp</button>
+                  <button id="btnRelease" class="btn btn-accent">Attempt Release</button>
+                  <button id="btnSpasm" class="btn btn-danger">Simulate Muscle Spasm</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: DIAGNOSTICS & ANALYTICS -->
+        <div id="tab-analytics" class="tab-viewport hidden">
+          <div class="analytics-layout-grid">
+            <!-- Performance Statistics Grid -->
+            <div class="dashboard-card metrics-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Neuromorphic Edge Benchmarks</h3>
+                  <p class="card-desc">Continuous real-time power/latency estimation</p>
+                </div>
+              </div>
+              <div class="metrics-grid">
+                <div class="metric-card">
+                  <div class="metric-label">Processing Latency</div>
+                  <div class="metric-value" id="metricLatency">-- ms</div>
+                  <div class="metric-footer">
+                    <span class="text-green">Neuromorphic <span id="latencyImprovement">80% faster</span></span>
+                    <span class="vs-label">vs DSP (120ms window)</span>
+                  </div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">Estimated Edge Power</div>
+                  <div class="metric-value" id="metricPower">-- µW</div>
+                  <div class="metric-footer">
+                    <span class="text-green">Energy-sparse (<span id="activePowerSparsity">99%</span> idle)</span>
+                    <span class="vs-label">on Neuromorphic ASIC</span>
+                  </div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">Synaptic Operations (SOPs)</div>
+                  <div class="metric-value" id="metricSops">0 / s</div>
+                  <div class="metric-footer">
+                    <span>Active synapse firing rate</span>
+                  </div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">Delta Event Frequency</div>
+                  <div class="metric-value" id="metricSpikerate">0 Hz</div>
+                  <div class="metric-footer">
+                    <span>Total encoded input spikes</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rehabilitation Session Performance Counters -->
+            <div class="dashboard-card sessions-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Session Trial Diagnostics</h3>
+                  <p class="card-desc">Cumulative task accomplishments in the current rehab block</p>
+                </div>
+              </div>
+              <div class="rehab-counters-grid">
+                <div class="counter-card">
+                  <span class="counter-num" id="countGrasps">0</span>
+                  <span class="counter-label">Grasps Detected</span>
+                </div>
+                <div class="counter-card">
+                  <span class="counter-num" id="countReleases">0</span>
+                  <span class="counter-label">Releases Detected</span>
+                </div>
+                <div class="counter-card">
+                  <span class="counter-num" id="countSpasms" style="color: var(--color-spike-down);">0</span>
+                  <span class="counter-label">Muscle Spasms</span>
+                </div>
+                <div class="counter-card">
+                  <span class="counter-num" style="color: var(--color-spike-up);">94.2%</span>
+                  <span class="counter-label">F1 Intent Precision</span>
+                </div>
+              </div>
+              <button id="btnDownloadReport" class="btn btn-primary" style="margin-top: 1.25rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <span>📥</span>
+                <span>Generate Clinical PDF Report</span>
+              </button>
+            </div>
+
+            <!-- Live Scrolling Event Console -->
+            <div class="dashboard-card logger-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Real-Time Clinical Event Logger</h3>
+                  <p class="card-desc">Active SNN core alerts, threshold crossings, and exoskeleton control triggers</p>
+                </div>
+                <button id="btnClearLog" class="btn-sm">Clear Terminal</button>
+              </div>
+              <div class="terminal-logger-wrapper">
+                <div class="terminal-logger-console" id="terminalLog">
+                  <div class="log-line system-type">[15:40:00] SNN Core successfully initialized on neuromorphic hardware emulator.</div>
+                  <div class="log-line system-type">[15:40:00] Electrode contact quality: EEG Mu (0.15 MΩ - Good), EMG Forearm (0.24 MΩ - Good).</div>
+                  <div class="log-line status-type">[15:40:00] Standing by. Awaiting voluntary intent trigger...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: SYSTEM CALIBRATION -->
+        <div id="tab-settings" class="tab-viewport hidden">
+          <div class="settings-layout-grid">
+            
+            <!-- Patient Profiles -->
+            <div class="dashboard-card controls-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Patient Recovery Profiles</h3>
+                  <p class="card-desc">Select stroke rehabilitation profile to adjust baseline values</p>
+                </div>
+              </div>
+              <div class="control-section">
+                <div class="profile-buttons-group">
+                  <button id="profHealthy" class="btn-sm">Healthy Subject</button>
+                  <button id="profMild" class="btn-sm active">Mild Motor Hemiparesis</button>
+                  <button id="profSevere" class="btn-sm">Severe Flaccid Paralysis</button>
+                  <button id="profSpastic" class="btn-sm">Spasticity / High Noise</button>
+                </div>
+                <div class="profile-description" id="profileText">
+                  Mild Motor Hemiparesis: Moderate EEG Mu-suppression, weaker EMG muscle contraction amplitude, moderate signal-to-noise ratio.
+                </div>
+              </div>
+            </div>
+
+            <!-- Hardware Sliders Calibration -->
+            <div class="dashboard-card sliders-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">SNN Hardware Threshold Tuning</h3>
+                  <p class="card-desc">Optimize analog-to-spike modulation thresholds and neuron leak times</p>
+                </div>
+              </div>
+              
+              <div class="control-section sliders-section">
+                <div class="sliders-grid">
+                  <div class="slider-wrapper">
+                    <div class="slider-header">
+                      <label for="slideDeltaThresh">Delta Mod. Threshold (θ)</label>
+                      <span class="value-display" id="valDeltaThresh">0.15 V</span>
+                    </div>
+                    <input type="range" id="slideDeltaThresh" min="0.05" max="0.5" step="0.01" value="0.15">
+                    <span class="slider-desc">Determines sensitivity of analog-to-spike encoding. Higher = sparser spikes.</span>
+                  </div>
+
+                  <div class="slider-wrapper">
+                    <div class="slider-header">
+                      <label for="slideNeuronThresh">LIF Neuron Threshold (V<sub>th</sub>)</label>
+                      <span class="value-display" id="valNeuronThresh">1.20 V</span>
+                    </div>
+                    <input type="range" id="slideNeuronThresh" min="0.5" max="2.5" step="0.05" value="1.20">
+                    <span class="slider-desc">Membrane potential required for a neuron to fire motor intent.</span>
+                  </div>
+
+                  <div class="slider-wrapper">
+                    <div class="slider-header">
+                      <label for="slideLeakRate">Membrane Decay (τ)</label>
+                      <span class="value-display" id="valLeakRate">15 ms</span>
+                    </div>
+                    <input type="range" id="slideLeakRate" min="5" max="100" step="5" value="20">
+                    <span class="slider-desc">Leak time constant of LIF neurons. Controls temporal integration windows.</span>
+                  </div>
+
+                  <div class="slider-wrapper">
+                    <div class="slider-header">
+                      <label for="slideSynWeight">Synaptic Weights</label>
+                      <span class="value-display" id="valSynWeight">1.00</span>
+                    </div>
+                    <input type="range" id="slideSynWeight" min="0.2" max="2.5" step="0.1" value="1.0">
+                    <span class="slider-desc">Multiplier for synaptic connection strengths between sensory spikes and LIF core.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Technical Explanatory Panel -->
+            <div class="dashboard-card explanation-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Rehabilitation Engineering Logic</h3>
+                </div>
+              </div>
+              <div class="education-content">
+                <p>Traditional stroke-rehabilitation BCIs use <strong>digital signal processing (DSP)</strong> (like Fourier transforms or filter banks) over windowed data (100–300ms). This introduces severe processing latency and consumes substantial power (running heavy matrix multiplications constantly on digital microcontrollers).</p>
+                <p>Our <strong>neuromorphic system</strong> mirrors the biological brain:</p>
+                <ul>
+                  <li><strong>Delta Modulation (Sensory Input):</strong> Converts continuous voltages (EEG/EMG) into asynchronous spike events. Spikes are only generated when there is a significant change in signal amplitude ($\pm \theta$). When the patient is idle, no spikes are generated, resulting in <strong>near-zero idle power</strong>.</li>
+                  <li><strong>Leaky Integrate-and-Fire (LIF) SNN Core:</strong> Receives spike trains asynchronously. Incoming spikes depolarize the membrane potentials ($V_m$) of specific detector neurons. If the user performs motor imagery, the reduction in Mu-band EEG spikes and the corresponding increase in EMG activity cause the Grasp LIF neuron to integrate these impulses and cross its threshold, firing an output trigger.</li>
+                  <li><strong>Ultra-low Latency:</strong> Decision triggers fire the instant the membrane threshold is crossed. This happens within milliseconds of voluntary intent, staying well within the biological sensorimotor loop requirement ($<25$ ms), which promotes <strong>neuroplastic recovery</strong>.</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB 5: USER GUIDE -->
+        <div id="tab-guide" class="tab-viewport hidden">
+          <div class="guide-layout-grid">
+            
+            <!-- Quick Start Steps -->
+            <div class="dashboard-card guide-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">Quick Start Manual</h3>
+                  <p class="card-desc">Follow these 3 simple steps to operate the prototype simulation</p>
+                </div>
+              </div>
+              <div class="guide-steps-list">
+                <div class="guide-step-card">
+                  <div class="step-num">1</div>
+                  <div class="step-content">
+                    <h4>Initiate Motor Attempt</h4>
+                    <p>Go to the <strong>Exoskeleton Actuator</strong> tab. Click <strong>"Attempt Grasp"</strong> or <strong>"Attempt Release"</strong> to simulate voluntary neural and muscle efforts from a stroke patient.</p>
+                  </div>
+                </div>
+                <div class="guide-step-card">
+                  <div class="step-num">2</div>
+                  <div class="step-content">
+                    <h4>Watch Real-Time Decoding</h4>
+                    <p>Observe the <strong>Live Monitor</strong> tab. Watch how the continuous waves (EEG Mu & Forearm EMG) suppress and burst, generating delta spikes. Look at the SNN potentials integrating and firing as they cross the threshold line.</p>
+                  </div>
+                </div>
+                <div class="guide-step-card">
+                  <div class="step-num">3</div>
+                  <div class="step-content">
+                    <h4>Review Performance Metrics</h4>
+                    <p>Go to the <strong>Diagnostics & Analytics</strong> tab. Observe the ultra-low <strong>Processing Latency</strong> (&lt;10ms) and highly efficient <strong>Edge Power</strong> (~10-25µW) benchmarks. Look at the scrolled SNN decision entries in the terminal log.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Signal & Data Interpretation Guide -->
+            <div class="dashboard-card glossary-panel">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3 class="card-title">How to Interpret SANI Visual Data</h3>
+                  <p class="card-desc">A simple guide to understanding the neural charts and stats</p>
+                </div>
+              </div>
+              
+              <div class="glossary-items-grid">
+                <div class="glossary-item">
+                  <div class="glossary-badge badge-eeg">EEG (Mu/Beta Wave)</div>
+                  <p>Represents motor planning signals in the brain cortex. At rest, it displays continuous 10Hz waves (Mu rhythm). When the patient tries to move, this rhythm collapses (desynchronizes) and flattens out, indicating volitional motor imagery.</p>
+                </div>
+                
+                <div class="glossary-item">
+                  <div class="glossary-badge badge-emg">EMG (Forearm Contraction)</div>
+                  <p>Represents electrical activity generated by forearm muscle fibers. Voluntary movement attempts show up as spiky, high-frequency voltage bursts. Relaxed states show a flat line with minimal background noise.</p>
+                </div>
+
+                <div class="glossary-item">
+                  <div class="glossary-badge" style="background: rgba(22, 163, 74, 0.05); color: var(--color-spike-up); border: 1px solid rgba(22, 163, 74, 0.15);">UP/DOWN Spike Events</div>
+                  <p>Asynchronous events generated when analog voltages deviate up (+) or down (-) by more than the delta threshold (&theta;). Spikes represent sensory action potentials. No signal change = no spikes = zero active processing power.</p>
+                </div>
+
+                <div class="glossary-item">
+                  <div class="glossary-badge" style="background: rgba(217, 119, 6, 0.05); color: var(--color-amber); border: 1px solid rgba(217, 119, 6, 0.15);">LIF Membrane Potentials</div>
+                  <p>Represents the temporary electrical charge accumulation ($V_m$) in the detector neurons. Muscle sensory spikes add positive charge. Brain resting EEG spikes add negative (inhibitory) charge. Firing occurs once the potential climbs past the dashed threshold line.</p>
+                </div>
+
+                <div class="glossary-item">
+                  <div class="glossary-badge" style="background: rgba(37, 99, 235, 0.05); color: var(--border-focus); border: 1px solid rgba(37, 99, 235, 0.15);">Neuromorphic Latency</div>
+                  <p>The time (in milliseconds) from the initial motor attempt to the exoskeleton firing. Neuromorphic SNNs process spikes immediately as they arrive, yielding latency &lt;10ms, which fits within the organic sensorimotor loop (&lt;25ms) to stimulate neuroplastic recovery.</p>
+                </div>
+
+                <div class="glossary-item">
+                  <div class="glossary-badge" style="background: rgba(255, 51, 102, 0.05); color: var(--color-spike-down); border: 1px solid rgba(255, 51, 102, 0.15);">Spasm Overrides</div>
+                  <p>Uncontrolled spastic muscle firing generates high-frequency EMG spikes in both muscle groups. The SNN Spasm neuron detects this co-contraction pattern immediately and locks the exoskeleton actuators, displaying a warning message to prevent injury.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <footer class="app-footer">
+        <p>&copy; 2026 Neuro-Nex Hackathon. Built for Stroke Recovery Assistive Interfaces.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
