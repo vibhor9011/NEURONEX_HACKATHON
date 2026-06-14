@@ -74,7 +74,7 @@ SANI processes spikes **asynchronously**. The decision fires the instant the mem
    * [styles.css]
    * [app.js]
 2. Open `index.html` in any web browser (Chrome, Firefox, Edge, Safari). No installation or local server required.
-
+Prototype link:-https://neuro-nex-hackathon-sani.vercel.app/
 ---
 
 ## ⚙️ Interactive Controls Guide
